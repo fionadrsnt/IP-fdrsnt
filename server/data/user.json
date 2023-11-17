@@ -1,0 +1,16 @@
+[
+    {
+        "fullName": "fiona",
+        "email": "whiskerrwonderr@gmail.com",
+        "password": "admin",
+        "role": "admin",
+        "address": "Piaza Mozia F9 no 1"
+    },
+    {
+        "fullName": "sachi123",
+        "email": "sachi@mail.com",
+        "password": "12345",
+        "role": "user",
+        "address": "Piaza Mozia F9 no 3"
+    }
+]
