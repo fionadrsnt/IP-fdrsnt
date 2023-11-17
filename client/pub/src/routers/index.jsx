@@ -5,6 +5,8 @@ import BaseLayout from "../layouts/BaseLayouts";
 import RegisterPage from "../pages/RegisterPage";
 import DetailPage from "../pages/DetailPage";
 import PaymentSummaryPage from "../pages/PaymentSummaryPage";
+import TrackingOrderPage from "../pages/TrackingOrderPage";
+import FaqPage from "../pages/FaqPage";
 
 const router = createBrowserRouter([
   {
@@ -48,10 +50,14 @@ const router = createBrowserRouter([
         path: "/adoptme/order",
         element: <PaymentSummaryPage />,
       },
-      // {
-      //   path: "/adoptme/:id/order",
-      //   element: <PaymentSummaryPage />,
-      // },
+      {
+        path: "/tracking",
+        element: <TrackingOrderPage />,
+      },
+      {
+        path: "/faq",
+        element: <FaqPage />,
+      },
     ],
   },
 ]);
