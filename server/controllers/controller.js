@@ -3,6 +3,9 @@ const { comparePassword } = require("../helpers/bcryptjs");
 const { signToken } = require("../helpers/jwt");
 const axios = require("axios");
 const fetchTokenPetFinder = require("../helpers/fetchTokenPetFinder");
+// const { OAuth2Client } = require("google-auth-library");
+// const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+// const { PaymentRequest, Invoice } = require("xendit-node");
 
 class Controller {
   static async register(req, res, next) {
@@ -105,63 +108,51 @@ class Controller {
       next(err);
     }
   }
-  static async checkoutAnimalPub(req, res, next) {
-    try {
-      let { id } = req.params;
-      const { data } = await axios.get(
-        `https://api.petfinder.com/v2/animals/${id}/order`,
-        {
-          headers: {
-            Authorization: `Bearer ${tokenUntukPetfinder}`,
-          },
-        }
-      );
-      res.status(200).json({ data });
-    } catch (err) {
-      console.log(err);
-      next(err);
-    }
-  }
-  // static async getMidtransToken(req, res, next) {
+  // static async checkoutAnimalPub(req, res, next) {
   //   try {
-  //     // Create Snap API instance
-  //     let snap = new midtransClient.Snap({
-  //       // Set to true if you want Production Environment (accept real transaction).
-  //       isProduction : false,
-  //       serverKey : process.env.MIDTRANS_SERVER_KEY
-  //   });
-  //   let parameter = {
-  //     "transaction_details": {
-  //         "order_id": "YOUR-ORDERID-123456",
-  //         "gross_amount": 10000
-  //     },
-  //     "credit_card":{
-  //         "secure" : true
-  //     },
-  //     "customer_details": {
-  //         "first_name": "budi",
-  //         "last_name": "pratama",
-  //         "email": "budi.pra@example.com",
-  //         "phone": "08111222333"
-  //     }
-  // };
-  //     })
-  //     res.json({message: 'sending token'})
+  //     let { id } = req.params;
+  //     const { data } = await axios.get(
+  //       `https://api.petfinder.com/v2/animals/${id}/order`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${tokenUntukPetfinder}`,
+  //         },
+  //       }
+  //     );
+  //     res.status(200).json({ data });
   //   } catch (err) {
-  //     next(err)
-
+  //     console.log(err);
+  //     next(err);
   //   }
   // }
 
-  static async deleteOrderPub(req, res, next) {
-    try {
-      let { id } = req.params;
-      const { data } = await axios.get();
-    } catch (err) {
-      console.log(err);
-      next(err);
-    }
-  }
+  // static async purchaseXendit(req, res, next) {
+  //   try {
+  //     const invoiceService = new Invoice({
+  //       secretKey:
+  //         "xnd_development_XYTrscJOGCPBq5BoKG8YoJ4zHHcpzAu6wqAqBLFntNcLOFmZNvRLLw0s35",
+  //     });
+
+  //     const data = {
+  //       amount: 10000,
+  //       invoiceDuration: 172800,
+  //       externalId: "test1234",
+  //       description: "Test Invoice",
+  //       currency: "IDR",
+  //       reminderTime: 1,
+  //     };
+  //     const response = await invoiceService.createInvoice({
+  //       data: data,
+  //     });
+
+  //     // console.log(response, "<<< response xendit");
+
+  //     res.status(200).json(response);
+  //   } catch (error) {
+  //     next(error);
+  //     console.log(error);
+  //   }
+  // }
 }
 
 module.exports = Controller;

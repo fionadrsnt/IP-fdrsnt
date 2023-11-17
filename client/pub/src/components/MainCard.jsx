@@ -8,7 +8,7 @@ const MainCard = () => {
   const [error, setError] = useState(null);
   const [animals, setAnimal] = useState({});
   const navigate = useNavigate();
-  const onClickDetail = (id) => {
+  const onClickDetailHandler = (id) => {
     navigate(`/adoptme/${id}`);
   };
   useEffect(() => {
@@ -39,13 +39,13 @@ const MainCard = () => {
     <>
       {/* {JSON.stringify(animals)} */}
       <div className="flex items-center justify-center min-h-screen container mx-auto">
+        {/* CARD */}
+        {/* ini nanti classnya diganti "card" */}
+        {/* GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* CARD */}
-          {/* ini nanti classnya diganti "card" */}
-          {/* GRID */}
           {animals.data.animals.map((e) => {
             return (
-              <div key={e.id} className="rounded-xl shadow-lg z-[-10]">
+              <div key={e.id} className="rounded-xl shadow-lg ">
                 <div className="p-5 flex flex-col">
                   <div className="rounded-xl overflow-hidden">
                     <img
@@ -66,8 +66,8 @@ const MainCard = () => {
 
                   <p className="text-slate-500 text-lg mt-3">{e.description}</p>
                   <button
-                    onClick={() => onClickDetail(e.id)}
-                    className="text-center bg-blue-400 text-blue-700 py-2 rounded-lg font-semibold mt-4 hover:bg-blue-300 focus:scale-95 transition-all duration-200 ease-out"
+                    onClick={() => onClickDetailHandler(e.id)}
+                    className="cursor-pointer text-center bg-blue-400 text-blue-700 py-2 rounded-lg font-semibold mt-4 hover:bg-blue-300 focus:scale-95 transition-all duration-200 ease-out"
                   >
                     Details
                   </button>

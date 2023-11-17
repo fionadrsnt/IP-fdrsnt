@@ -1,5 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 const PaymentSummary = ({ animal }) => {
+  const navigate = useNavigate();
   //   console.log(animal, "<<< component");
+  const onClickHandler = () => {
+    navigate("/tracking");
+  };
   return (
     <>
       <div className="container mx-auto p-8">
@@ -59,7 +65,10 @@ const PaymentSummary = ({ animal }) => {
               <p className="text-gray-600">Tracking ID: 123456789</p>
             </div>
             <div className="mt-4">
-              <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
+              <button
+                onClick={onClickHandler}
+                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+              >
                 Pay Now!
               </button>
             </div>
