@@ -21,10 +21,10 @@ router.get("/adoptme", Controller.readAnimalPub);
 router.get("/adoptme/:id", Controller.detailAnimalPub);
 
 //Public checkout
-router.post("/adoptme/:id/order", Controller.checkoutAnimalPub);
+// router.post("/adoptme/:id/order", Controller.checkoutAnimalPub);
 
 //payment
-router.get("/payment/midtrans/token", Controller.getMidtransToken);
+// router.get("/payment/:id", Controller.purchaseXendit);
 
 //Public Payment
 // router.post("/adoptme/:id/order/payment", Controller.paymentAnimalPub);

@@ -75,7 +75,7 @@ const LoginForm = () => {
 
               <button className="w-full border border-gray-300 text-md p-2 rounded-lg mb-6 hover:bg-black hover:text-white">
                 <img
-                  src="google.svg"
+                  src="./assets/google.svg"
                   alt="img"
                   className="w-6 h-6 inline mr-2"
                 />{" "}
