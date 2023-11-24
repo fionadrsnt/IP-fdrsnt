@@ -1,78 +1,76 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { IoMdMenu } from "react-icons/io";
 import Swal from "sweetalert2";
-import LogoWW from "../assets/WhiskerWonder-cat-logo.svg";
+import LogoWW from "../assets/WhiskerWonderBigger.svg";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const onClickLogout = async (event) => {
-    localStorage.clear();
+    localStorage?.clear();
     navigate("/login");
     Swal.fire({
       text: "Logout Success",
     });
   };
+  const onClickUser = async (event) => {
+    navigate(`/user/${localStorage.id}`);
+  };
+  const onClickNav = async (event) => {};
+
   return (
     <>
-      <nav className="p-5 bg-white z-100 shadow md:flex md:items-center md:justify-between ">
-        <div className="flex justify-between items-center">
-          <Link to={"/"}>
-            <span className="text-2xl font-[Poppins] cursor-pointer">
-              <img className="h-10 inline" src={LogoWW} />
-              WhiskerWonders
-            </span>
-          </Link>
-          <label
-            className="text-3xl cursor-pointer mx-2 md:hidden block"
-            name="menu"
-          >
-            <input
-              type="checkbox"
-              className="hidden"
-              onChange={(e) => {
-                console.log(e.target.value);
-                setIsOpen((prev) => !prev);
-              }}
-              value={isOpen}
+      <div className="bg-[#EBE3D5]">
+        <nav className="md:py-4 md:max-w-3xl py-3 px-4 flex justify-between items-center w-[92%]  mx-auto xl:max-w-7xl ">
+          <div>
+            <img
+              className=" cursor-pointer w-33 max-h-20 "
+              src={LogoWW}
+              alt="..."
             />
-            <IoMdMenu />
-          </label>
-        </div>
-        <div
-          className={`md:flex md:items-center z-[100] md:z-auto md:static h-0 bg-white w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 ${
-            isOpen ? "opacity-100" : "opacity-0"
-          } transition-all ease-in duration-300`}
-        >
-          <div className="md:mx-4 md:my-6 md:my-0 bg-white md:w-auto w-full md:p-0 p-3">
-            <Link to="/" className="text-xl hover: text-gray-800 duration-500">
-              Home
-            </Link>
           </div>
-          <div className="md:mx-4 md:my-6 md:my-0 bg-white md:w-auto w-full md:p-0 p-3 z-99">
-            <Link
-              to="/faq"
-              className="text-xl hover: text-gray-800 duration-500"
+          <div className="bg-[#EBE3D5] nav-links duration-500 md:static absolute bg-white md:min-h-fit min-h-[60vh] left-0 top-[-100%] md:w-auto  w-full flex items-center px-5">
+            <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
+              <li>
+                <Link className="hover:text-gray-500" to={"/"}>
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link className="hover:text-gray-500" to={"/faq"}>
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link className="hover:text-gray-500" to={"/tracking"}>
+                  Status Payment
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <button
+              onClick={onClickLogout}
+              className=" cursor-pointer bg-[#776b5d] text-gray-200 px-5 py-2 rounded-full hover:bg-[#B0A695] hover:scale-110 transition-all active:scale-90"
             >
-              FAQ
-            </Link>
-          </div>
-          <div className="md:mx-4 md:my-6 md:my-0 bg-white md:w-auto w-full md:p-0 p-3 z-99">
-            <Link
-              to="/tracking"
-              className="text-xl hover: text-gray-800 duration-500"
+              Log Out
+            </button>
+            {/* <button className="w-10 h-10 material-symbols-outlined text-gray-500 hover:text-green-500 hover:scale-110 transition-all active:scale-90">
+            home_pin
+          </button> */}
+            <button className="w-10 h-10 material-symbols-outlined text-gray-500 hover:text-[#9A3B3B] hover:scale-110 transition-all active:scale-90">
+              menu
+            </button>
+            <button
+              onClick={onClickUser}
+              className="w-10 h-10 material-symbols-outlined text-gray-500 hover:text-[#9A3B3B] hover:scale-110 transition-all active:scale-90"
             >
-              Track Your Order
-            </Link>
+              account_circle
+            </button>
           </div>
-          <button
-            onClick={onClickLogout}
-            className="bg-gray-400 text-white font-[Poppins] duration-500 px-6 py-2 mx-4 hover:bg-gray=500 rounded"
-          >
-            Sign Out
-          </button>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </>
   );
 };

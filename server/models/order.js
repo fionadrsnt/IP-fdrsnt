@@ -14,6 +14,26 @@ module.exports = (sequelize, DataTypes) => {
   }
   Order.init(
     {
+      petName: {
+        type: DataTypes.STRING,
+        defaultValue: "unnamed",
+      },
+      petType: {
+        type: DataTypes.STRING,
+        defaultValue: "uncategorized",
+      },
+      totalPrice: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      statusOrder: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      externalId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -26,23 +46,15 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      paymentId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: `paymentId is required!`,
-          },
-          notEmpty: {
-            msg: `paymentId is required!`,
-          },
-        },
-      },
     },
     {
       sequelize,
       modelName: "Order",
     }
   );
+  Order.beforeValidate((order) => {
+    let external = new Date().getTime();
+    order.externalId = `${external}`;
+  });
   return Order;
 };

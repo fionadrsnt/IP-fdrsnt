@@ -1,13 +1,50 @@
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { url } from "../configs/config";
 const PaymentSummary = ({ animal }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [order, setOrder] = useState([]);
+  const { id } = useParams();
   const navigate = useNavigate();
-  //   console.log(animal, "<<< component");
   const onClickHandler = () => {
     navigate("/tracking");
+
+    useEffect(() => {
+      async function fetchOrder() {
+        try {
+          // console.log("masuk sini");
+          setIsLoading(true);
+          const { data } = await axios.post(
+            `${url}/adoptme/order/${id}`,
+            null,
+            {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            }
+          );
+          console.log(data);
+          setOrder(data);
+        } catch (error) {
+          console.log(error);
+          setError(error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+      fetchOrder();
+    }, []);
+    if (isLoading) return <p className="h-screen bg-black">Loading...</p>;
+    if (error)
+      return (
+        <p className="h-screen bg-black text-red-500">
+          Error fetching, please try again later
+        </p>
+      );
   };
   return (
     <>
+      {JSON.stringify(order)}
       <div className="container mx-auto p-8">
         <div className="flex">
           {/* Left side with picture and details */}

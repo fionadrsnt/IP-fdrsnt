@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Toastify from "toastify-js";
 import Swal from "sweetalert2";
@@ -19,9 +19,7 @@ const RegisterForm = () => {
   const formOnSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`${url}/register`, inputRegister, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      });
+      const { data } = await axios.post(`${url}/register`, inputRegister);
       navigate("/");
       Swal.fire({
         text: "User added successfully",
@@ -136,10 +134,12 @@ const RegisterForm = () => {
                 />{" "}
                 Sign in with Google
               </button>
-              {/* <div class="text-center text-gray-400">
-                  Don't have an account?
-                  <span class="font-bold text-black">Sign up for free</span>
-              </div> */}
+              <Link
+                to={"/login"}
+                className="flex items-center justify-center w-full border border-gray-300 text-md p-2 rounded-lg mb-6 hover:bg-black hover:text-white"
+              >
+                Sign in
+              </Link>
             </div>
             <div className="relative">
               <img
