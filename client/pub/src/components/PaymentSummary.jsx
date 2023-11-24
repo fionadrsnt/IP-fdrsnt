@@ -1,7 +1,8 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { url } from "../configs/config";
+
 const PaymentSummary = ({ animal }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,9 +10,6 @@ const PaymentSummary = ({ animal }) => {
   const [payment, setPayment] = useState({});
   const { id } = useParams();
   const navigate = useNavigate();
-  // const onClickHandler = () => {
-  //   navigate("/");
-
   // console.log("masuksini", 11);
   async function fetchOrder() {
     try {
@@ -20,7 +18,7 @@ const PaymentSummary = ({ animal }) => {
       const { data } = await axios.post(`${url}/adoptme/order/${id}`, null, {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       });
-      console.log(data);
+      // console.log(data);
       setOrder(data);
     } catch (error) {
       console.log(error);
@@ -40,13 +38,14 @@ const PaymentSummary = ({ animal }) => {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
       );
-      console.log(data, "dataa <<");
+      // console.log(data, "dataa <<");
       setPayment(data);
     } catch (error) {
       console.log(error);
       setError(error);
     } finally {
       setIsLoading(false);
+      setError(null);
     }
   }
   useEffect(() => {
@@ -55,20 +54,29 @@ const PaymentSummary = ({ animal }) => {
 
   useEffect(() => {
     fetchPayment();
-  }, []);
-  // console.log(id);
+    console.log(isLoading);
+  }, [order]);
 
+  // const onClickHandler = () => {
+  //   navigate(`${payment.invoiceUrl}`);
+  // };
+  // console.log(payment, 63);
   if (isLoading) return <p className="h-screen bg-black">Loading...</p>;
-  if (error)
-    return (
-      <p className="h-screen bg-black text-red-500">
-        Error fetching, please try again later
-      </p>
-    );
+  // if (error)
+  //   return (
+  //     <p className="h-screen bg-black text-red-500">
+  //       Error fetching, please try again later
+  //     </p>
+  //   );
   // };
   return (
     <>
       {/* {JSON.stringify(order)} */}
+      {error && (
+        <p className="h-screen bg-black text-red-500">
+          Error fetching, please try again later
+        </p>
+      )}
       <div className="container mx-auto p-8">
         <div className="flex">
           {/* Left side with picture and details */}
@@ -126,12 +134,13 @@ const PaymentSummary = ({ animal }) => {
               <p className="text-gray-600">Tracking ID: 123456789</p>
             </div>
             <div className="mt-4">
-              <button
-                // onClick={onClickHandler}
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+              <Link
+                to={payment.invoiceUrl}
+                className="bg-gray-500 hover:bg-gray-700 text-white font-bold
+                py-2 px-4 rounded-full"
               >
                 Pay Now!
-              </button>
+              </Link>
             </div>
           </div>
         </div>
