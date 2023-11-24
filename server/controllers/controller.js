@@ -91,10 +91,7 @@ class Controller {
     try {
       const tokenUntukPetfinder = await fetchTokenPetFinder();
       //   console.log(tokenUntukPetfinder);
-
-      //   console.log(req.params);
       let { id } = req.params;
-      //   console.log(id);
       const { data } = await axios.get(
         `https://api.petfinder.com/v2/animals/${id}`,
         {
@@ -140,7 +137,7 @@ class Controller {
   }
   static async purchaseXendit(req, res, next) {
     try {
-      const { id } = req.params;
+      const { id, animalId } = req.params;
       const invoiceService = new Invoice({
         secretKey: process.env.XENDIT_SECRET_KEY,
       });
