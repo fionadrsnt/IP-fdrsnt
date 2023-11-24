@@ -10,41 +10,34 @@ router.post("/register", Controller.register);
 //POST LOGIN
 router.post("/login", Controller.login);
 
+// google signin
+router.post("/google-sign", Controller.googleSign);
+
+//Authentication
+router.use(authentication);
+
 //Public read data
 router.get("/adoptme", Controller.readAnimalPub);
 
-//Public Detail
+//Public order
+router.post("/adoptme/order/:id", Controller.OrderSummary);
 
+//Public Detail
 // router.get("/adoptme/:id", (req, res) => {
 //   res.send({ message: `${req.params.id}` });
 // });
 router.get("/adoptme/:id", Controller.detailAnimalPub);
 
-//Public checkout
-// router.post("/adoptme/:id/order", Controller.checkoutAnimalPub);
-
 //payment
-// router.get("/payment/:id", Controller.purchaseXendit);
+router.post("/payment/:id", Controller.purchaseXendit);
 
-//Public Payment
-// router.post("/adoptme/:id/order/payment", Controller.paymentAnimalPub);
+//getUserInfo
+router.get("/user/:id", Controller.getUserInfo);
 
-//Public Notification(resi)
-// router.get("/notif/payment", Controller.notification);
+//updateUserAccount
+router.patch("/user/:id", Controller.updateUserAccount);
 
-//Authentication
-// router.use(authentication);
-
-//cmsreadAnimalOrder
-// router.get("/order", Controller.readOrder);
-
-//cmsdetailAnimalOrder
-// router.get("/order/:id", Controller.detailOrder);
-
-//cmsupdateAnimalOrder
-// router.put("/order/:id", authorization, Controller.editOrder);
-
-//cmsdeleteAnimalOrder
-// router.delete("/order/:id", Controller.deleteOrder);
+//deleteUserAccount
+router.delete("/user/:id", Controller.deleteUserAccount);
 
 module.exports = router;

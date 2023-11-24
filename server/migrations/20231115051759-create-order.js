@@ -9,19 +9,25 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      petName: {
+        type: Sequelize.STRING,
+      },
+      petType: {
+        type: Sequelize.STRING,
+      },
+      totalPrice: {
+        type: Sequelize.INTEGER,
+      },
+      statusOrder: {
+        type: Sequelize.STRING,
+      },
+      externalId: {
+        type: Sequelize.STRING,
+      },
       userId: {
         type: Sequelize.INTEGER,
         references: {
           model: "Users",
-          key: "id",
-        },
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      },
-      paymentId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Payments",
           key: "id",
         },
         onDelete: "cascade",

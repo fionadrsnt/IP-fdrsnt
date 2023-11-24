@@ -7,6 +7,7 @@ import DetailPage from "../pages/DetailPage";
 import PaymentSummaryPage from "../pages/PaymentSummaryPage";
 import TrackingOrderPage from "../pages/TrackingOrderPage";
 import FaqPage from "../pages/FaqPage";
+import UserPage from "../pages/UserPage";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
         element: <DetailPage />,
       },
       {
-        path: "/adoptme/order",
+        path: "/adoptme/order/:id",
         element: <PaymentSummaryPage />,
       },
       {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "/faq",
         element: <FaqPage />,
+      },
+      {
+        path: "/user/:id",
+        element: <UserPage />,
       },
     ],
   },

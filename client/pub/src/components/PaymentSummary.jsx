@@ -1,13 +1,74 @@
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { url } from "../configs/config";
 const PaymentSummary = ({ animal }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [order, setOrder] = useState({});
+  const [payment, setPayment] = useState({});
+  const { id } = useParams();
   const navigate = useNavigate();
-  //   console.log(animal, "<<< component");
-  const onClickHandler = () => {
-    navigate("/tracking");
-  };
+  // const onClickHandler = () => {
+  //   navigate("/");
+
+  // console.log("masuksini", 11);
+  async function fetchOrder() {
+    try {
+      // console.log("masuk sini");
+      setIsLoading(true);
+      const { data } = await axios.post(`${url}/adoptme/order/${id}`, null, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      });
+      console.log(data);
+      setOrder(data);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  async function fetchPayment() {
+    try {
+      // console.log("masuk sini");
+      setIsLoading(true);
+      const { data } = await axios.post(
+        `${url}/payment/${order.newOrder.id}`,
+        null,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      );
+      console.log(data, "dataa <<");
+      setPayment(data);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  useEffect(() => {
+    fetchOrder();
+  }, []);
+
+  useEffect(() => {
+    fetchPayment();
+  }, []);
+  // console.log(id);
+
+  if (isLoading) return <p className="h-screen bg-black">Loading...</p>;
+  if (error)
+    return (
+      <p className="h-screen bg-black text-red-500">
+        Error fetching, please try again later
+      </p>
+    );
+  // };
   return (
     <>
+      {/* {JSON.stringify(order)} */}
       <div className="container mx-auto p-8">
         <div className="flex">
           {/* Left side with picture and details */}
@@ -66,7 +127,7 @@ const PaymentSummary = ({ animal }) => {
             </div>
             <div className="mt-4">
               <button
-                onClick={onClickHandler}
+                // onClick={onClickHandler}
                 className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
               >
                 Pay Now!

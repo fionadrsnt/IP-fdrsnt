@@ -15,8 +15,7 @@ const DetailCard = () => {
       // await axios.put(`${url}/adoptme/:id`, detailAnimal, {
       //   headers: { Authorization: `Bearer ${localStorage.token}` },
       // });
-      navigate(`/adoptme/order`, { state: detailAnimal });
-      // navigate(`/adoptme/${id}/order`);
+      navigate(`/adoptme/order/${id}`, { state: detailAnimal });
     } catch (err) {
       console.log(err);
     }
@@ -25,7 +24,9 @@ const DetailCard = () => {
     async function fetchAnimal() {
       try {
         setIsLoading(true);
-        const { data } = await axios.get(`${url}/adoptme/${id}`);
+        const { data } = await axios.get(`${url}/adoptme/${id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        });
         // console.log(data, "<<<< data dari axios detail");
         setDetailAnimal(data);
       } catch (err) {

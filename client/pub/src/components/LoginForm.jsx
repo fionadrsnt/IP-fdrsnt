@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import { url } from "../configs/config";
 import LoginPicture from "../assets/login.jpeg";
+import { Link, useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -21,13 +22,31 @@ const LoginForm = () => {
         email,
         password,
       });
+      console.log(response, "ini response");
       localStorage.setItem("token", response.data.access_token);
+      localStorage.setItem("id", response.data.id);
       navigate("/");
     } catch (err) {
       console.log(err.message);
     }
   };
-
+  const googleSignIn = async (credentialResponse) => {
+    // console.log(credentialResponse);
+    try {
+      const { data } = await axios({
+        url: `${url}/google-sign`,
+        method: "post",
+        headers: {
+          access_token: credentialResponse.credential,
+        },
+      });
+      // console.log(data);
+      localStorage.setItem("token", data.access_token);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -58,13 +77,6 @@ const LoginForm = () => {
                   className="w-full p-2 border border-gray-300 rounded-mb placeholder: font-light placeholder:text-gray-500"
                 />
               </div>
-              {/* <div className="flex justify-between w-full py-4">
-                <div className="mr-24">
-                  <input type="checkbox" name="ch" id="ch" className="mr-2" />
-                  <span className="text-md"> Remember for 30 days</span>
-                </div>
-                <span className="font-bold text-md">Forgot Password</span>
-              </div> */}
               <button
                 className="w-full bg-black text-white p-2 rounded-lg mb-6 hover:bg-white hover:text-black hover:border 
           hover:border-gray-300"
@@ -72,19 +84,19 @@ const LoginForm = () => {
                 {" "}
                 Sign In{" "}
               </button>
-
-              <button className="w-full border border-gray-300 text-md p-2 rounded-lg mb-6 hover:bg-black hover:text-white">
-                <img
-                  src="./assets/google.svg"
-                  alt="img"
-                  className="w-6 h-6 inline mr-2"
-                />{" "}
-                Sign in with Google
-              </button>
-
+              <GoogleOAuthProvider clientId="896490483167-4ca9nvvjnf94ikgopmkglc4b1qp5iee7.apps.googleusercontent.com">
+                <GoogleLogin
+                  onSuccess={googleSignIn}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </GoogleOAuthProvider>
               <div className="text-center text-gray-400">
-                Don't have an account?
-                <span className="font-bold text-black">Sign up for free</span>
+                or..
+                <Link to={"/register"} className="font-bold text-black">
+                  Sign up for free
+                </Link>
               </div>
             </form>
           </div>
@@ -94,10 +106,6 @@ const LoginForm = () => {
               alt="img"
               className="w-[400px] h-full hidden rounded-r-2xl md:block object-cover"
             />
-            {/* text on image
-          <div class="absolite hidden bottom-10 right-6 p-6 bg-white bg-opacity-30 backdrop-blur-sm rounded drop-shadow-lg md:black">
-              <span class="text-white text-xl">Let's adopt new pets here!</span>
-          </div> */}
           </div>
         </div>
       </div>
