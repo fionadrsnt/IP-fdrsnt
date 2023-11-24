@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { url } from "../configs/config";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -20,7 +20,7 @@ const ProfileCard = () => {
   const inputAddressChangeHandler = (event) => {
     setAddress(event.target.value);
   };
-
+  const onClickDelete = async (event) => {};
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -40,6 +40,27 @@ const ProfileCard = () => {
       }
     }
     fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchUserDataDelete() {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.delete(`${url}/user/${id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        });
+        setUser(data);
+        setFullName(data?.dataUser[0]?.fullName);
+        setEmail(data?.dataUser[0]?.email);
+        setAddress(data.dataUser[0]?.address);
+      } catch (err) {
+        console.log(err);
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchUserDataDelete();
   }, []);
   if (isLoading) return <p className="h-screen bg-black">Loading...</p>;
   if (error)
@@ -115,10 +136,10 @@ const ProfileCard = () => {
               Update
             </button>
             <span>
-              Remove your account? click{" "}
-              <button className="hover: text-[#9A3B3B] duration-500">
+              Remove your account? click{""}
+              {/* <button onClick={} className="hover: text-[#9A3B3B] duration-500">
                 here
-              </button>
+              </button> */}
             </span>
           </form>
         </div>

@@ -122,13 +122,14 @@ class Controller {
           },
         }
       );
-      // console.log(data);
+      console.log(data, "125");
       const payload = {
         petName: data.animal.name,
         petType: data.animal.type,
         totalPrice: Math.round(1000000 + Math.random() * 10000000),
         statusOrder: "unpaid",
         userId: userId,
+        invoiceUrl: data.animal.invoiceUrl,
       };
       let newOrder = await Order.create(payload);
       res.status(201).json({ newOrder });

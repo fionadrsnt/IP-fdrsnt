@@ -5,43 +5,67 @@ import { url } from "../configs/config";
 const PaymentSummary = ({ animal }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [order, setOrder] = useState([]);
+  const [order, setOrder] = useState({});
+  const [payment, setPayment] = useState({});
   const { id } = useParams();
   const navigate = useNavigate();
-  const onClickHandler = () => {
-    navigate("/tracking");
+  // const onClickHandler = () => {
+  //   navigate("/");
 
-    useEffect(() => {
-      async function fetchOrder() {
-        try {
-          // console.log("masuk sini");
-          setIsLoading(true);
-          const { data } = await axios.post(
-            `${url}/adoptme/order/${id}`,
-            null,
-            {
-              headers: { Authorization: `Bearer ${localStorage.token}` },
-            }
-          );
-          console.log(data);
-          setOrder(data);
-        } catch (error) {
-          console.log(error);
-          setError(error);
-        } finally {
-          setIsLoading(false);
+  // console.log("masuksini", 11);
+  async function fetchOrder() {
+    try {
+      // console.log("masuk sini");
+      setIsLoading(true);
+      const { data } = await axios.post(`${url}/adoptme/order/${id}`, null, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      });
+      console.log(data);
+      setOrder(data);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  async function fetchPayment() {
+    try {
+      // console.log("masuk sini");
+      setIsLoading(true);
+      const { data } = await axios.post(
+        `${url}/payment/${order.newOrder.id}`,
+        null,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
         }
-      }
-      fetchOrder();
-    }, []);
-    if (isLoading) return <p className="h-screen bg-black">Loading...</p>;
-    if (error)
-      return (
-        <p className="h-screen bg-black text-red-500">
-          Error fetching, please try again later
-        </p>
       );
-  };
+      console.log(data, "dataa <<");
+      setPayment(data);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  useEffect(() => {
+    fetchOrder();
+  }, []);
+
+  useEffect(() => {
+    fetchPayment();
+  }, []);
+  // console.log(id);
+
+  if (isLoading) return <p className="h-screen bg-black">Loading...</p>;
+  if (error)
+    return (
+      <p className="h-screen bg-black text-red-500">
+        Error fetching, please try again later
+      </p>
+    );
+  // };
   return (
     <>
       {/* {JSON.stringify(order)} */}
@@ -103,7 +127,7 @@ const PaymentSummary = ({ animal }) => {
             </div>
             <div className="mt-4">
               <button
-                onClick={onClickHandler}
+                // onClick={onClickHandler}
                 className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
               >
                 Pay Now!
