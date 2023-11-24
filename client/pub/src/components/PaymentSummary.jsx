@@ -44,7 +44,7 @@ const PaymentSummary = ({ animal }) => {
   };
   return (
     <>
-      {JSON.stringify(order)}
+      {/* {JSON.stringify(order)} */}
       <div className="container mx-auto p-8">
         <div className="flex">
           {/* Left side with picture and details */}

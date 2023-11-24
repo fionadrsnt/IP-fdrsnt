@@ -29,9 +29,9 @@ const ProfileCard = () => {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
         setUser(data);
-        setFullName(data.fullName);
-        setEmail(data.email);
-        setAddress(data.address);
+        setFullName(data?.dataUser[0]?.fullName);
+        setEmail(data?.dataUser[0]?.email);
+        setAddress(data.dataUser[0]?.address);
       } catch (err) {
         console.log(err);
         setError(err);
@@ -71,7 +71,7 @@ const ProfileCard = () => {
               className="p-6 h-52 md:h-64"
             />
           </div>
-          <form noValidate="" className="space-y-6">
+          <form className="space-y-6">
             <div>
               <label htmlFor="name" className="text-sm">
                 Full name
