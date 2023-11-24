@@ -9,6 +9,8 @@ My First Server App is an application to help you find the perfect job based on 
 
 - RESTful endpoint for asset's CRUD operation
 - JSON formatted response
+- Using http://localhost:3000
+- Deployed client whiskerwonder.vercel.app
 
 ## Tech Stack used to build this app:
 
